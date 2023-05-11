@@ -1,13 +1,12 @@
 <template>
-  <component :is="currentPageComponent"
-  :page-params="currentPageParams"
-  @gotoPage="(pageName, pageParams) => gotoPage(pageName, pageParams)" />
+  <component :is="currentPageComponent" :page-params="currentPageParams" />
 </template>
 
 <script>
 import MainPage from '@/pages/MainPage.vue';
 import ProductPage from '@/pages/ProductPage.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
+import eventBus from '@/eventBus';
 
 const routes = { // список страниц, сюда добавляем новые страницы
   main: 'MainPage',
@@ -34,6 +33,10 @@ export default {
     currentPageComponent() {
       return routes[this.currentPage] || 'NotFoundPage';
     },
+  },
+  created() { // хук created
+    // добавляем обработчик события (в шину событий eventBus) переключения страниц
+    eventBus.$on('gotoPage', (pageName, pageParams) => this.gotoPage(pageName, pageParams));
   },
 };
 </script>
