@@ -66,7 +66,7 @@
               </div>
 
               <b class="item__price">
-                {{ product.price }} ₽
+                {{ product.price | numberFormat }} ₽
               </b>
             </div>
 
@@ -146,9 +146,14 @@
 import products from '@/data/products';
 import categories from '@/data/categories';
 import gotoPage from '@/helpers/gotoPage';
+import numberFormat from '@/helpers/numberFormat';
 
 export default {
   props: ['pageParams'],
+  // опция, объект методов filters работает так же как methods
+  filters: {
+    numberFormat,
+  },
   computed: {
     product() {
       return products.find((product) => product.id === this.pageParams.id);
