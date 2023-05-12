@@ -1,11 +1,12 @@
 /* eslint-disable */
 import Vue from 'vue';
 import Vuex from 'vuex';
+import products from '@/data/products';
 
 Vue.use(Vuex); // Сообщаем Vue, что будем использовать Vuex
 
 export default new Vuex.Store({ // Создаем и Экспортируем новое хранилище Vuex.Store
-  state: {
+  state: {  // состояние товара
     cartProducts: [
       { productId: 1, amount: 2 },
     ],
@@ -24,4 +25,14 @@ export default new Vuex.Store({ // Создаем и Экспортируем н
       }
     },
   },
+  getters: {
+    cartDetailProducts(state) {
+      return state.cartProducts.map(item => {
+        return {
+          ...item,
+            product: products.find(p => p.id === item.productId),
+        }
+      });
+    },
+  }
 });
