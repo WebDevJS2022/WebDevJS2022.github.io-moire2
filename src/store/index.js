@@ -26,13 +26,16 @@ export default new Vuex.Store({ // Создаем и Экспортируем н
     },
   },
   getters: {
-    cartDetailProducts(state) {
+    cartDetailProducts(state) { // подробная информация о товарах
       return state.cartProducts.map(item => {
         return {
           ...item,
             product: products.find(p => p.id === item.productId),
         }
       });
+    },
+    cartTotalPrice(state, getters) { // общая стоимость покупки
+      return getters.cartDetailProducts.reduce((acc, item) => (item.product.price * item.amount) + acc, 0);
     },
   }
 });
